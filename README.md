@@ -78,3 +78,15 @@ https://en.wikipedia.org/wiki/Chmod
 We need to be careful when using Init because it will not rerun if restarting an existing workspace. That is why the gitpod.yml file uses `before` instead of `init`
 
 https://www.gitpod.io/docs/configure/workspaces/tasks
+
+## Working with Env Vars
+- Can list out all environment vars using the `env` command
+- Can filter specific env vars using grep. ex: `env | grep AWS_`
+- set using `export VAR_NAME=varValue`
+- Remove env var using `unset VAR_NAME`
+- Print env var with `echo $VAR_NAME`
+
+#### Scoping Env Vars
+In order to set Env Vars across all your terminal windows into the future, you need to set it in your `.bash_profile`
+
+You can persist env vars across all GitPod workspaces in your account using `gp env VAR_NAME=VarValue`
