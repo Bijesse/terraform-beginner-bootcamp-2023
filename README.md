@@ -90,3 +90,26 @@ https://www.gitpod.io/docs/configure/workspaces/tasks
 In order to set Env Vars across all your terminal windows into the future, you need to set it in your `.bash_profile`
 
 You can persist env vars across all GitPod workspaces in your account using `gp env VAR_NAME=VarValue`
+
+
+### AWS CLI installation
+AWS CLI is installed for this project. But you need to set Env Vars using the [./bin/install_aws_cli](./bin/install_aws_cli) bash script
+
+[getting started install of AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+#### AWS CLI Env Vars
+[here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
+
+**REMEMBER** This command chekcs if our AWS crednetials are configured correctly `aws sts get-caller-identity`
+
+If successful, you get the following json payload
+
+```json
+{
+    "UserId": "EXAMPLEID",
+    "Account": "123456789012",
+    "Arn": "arn:aws:iam::123456789012:user/gitpod-tf-bootcamp"
+}
+```
+
+We need to generate AWS CLI crednetials from IAM user to use the AWS CLI. I'm using `gitpod-tf-gitpod`
