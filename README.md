@@ -113,3 +113,28 @@ If successful, you get the following json payload
 ```
 
 We need to generate AWS CLI crednetials from IAM user to use the AWS CLI. I'm using `gitpod-tf-gitpod`
+
+## Terraform basics
+
+### tf registry
+a colleciton of providers and modules in the tf registry [registry.terraform.io](https://registry.terraform.io/)
+
+- **providers** is an interface to APIs to create tf resources - ex AWS and New Relic ... we used [random](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string)
+- **Modules** allow you to make large amonuts of tf code portable (modular)
+
+### tf console
+we can see a list of all the tf commands by typing `terraform`
+
+- `terraform init` run at start of project to download tf binary providers (creates .terraform file) 
+- `terraform plan` run to show what has changed in our infra sine the last time we ran the code
+- `terraform apply` this command will run the the changes to be executed by tf.... Will ask for yes/no prompt.. this can be automated using `terraform apply --auto-approve`
+
+## tf lock files
+`.terrform.lock.hcl` contians versioning for providers and modules used in that project
+
+## tf state files
+contain info about the current state of your infra. do not commit this file! should be listed in .gitignore.. has PID in it
+**Do not mess with terraform.tfstate and backup files. **
+
+## tf directory 
+`.terraform` directory has binaries of tf providers
