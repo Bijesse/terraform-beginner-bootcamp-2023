@@ -138,3 +138,9 @@ contain info about the current state of your infra. do not commit this file! sho
 
 ## tf directory 
 `.terraform` directory has binaries of tf providers
+
+### Terraform destroy
+destorys resources you just created in this main.tf file... you can also use `--auto-approve`
+
+You should run `terraform destroy` always when closing environment. 
+^ confirm this by looking at `terraform.tfstate` and look at your resources
