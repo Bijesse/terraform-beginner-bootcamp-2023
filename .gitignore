@@ -35,3 +35,5 @@ terraform.rc
 
 
 *.env.example 
+
+credentials.tfrc.json 

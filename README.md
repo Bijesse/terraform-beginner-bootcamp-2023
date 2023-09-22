@@ -157,3 +157,6 @@ issue running `terraform login`. Gitpod showed a bash view but it didn't work in
     }
 }
 ```
+
+#### automated login with `source ./bin/generate_trfc_creds`
+necessary for working in gitpod
