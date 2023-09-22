@@ -144,3 +144,16 @@ destorys resources you just created in this main.tf file... you can also use `--
 
 You should run `terraform destroy` always when closing environment. 
 ^ confirm this by looking at `terraform.tfstate` and look at your resources
+
+## Issues with tf cloud login and gitpod working together
+issue running `terraform login`. Gitpod showed a bash view but it didn't work in Gitpod... WOrkaround is to manually generate a `credentials.tfrc.json` file at `touch /home/gitpod/.terraform.d/credentials.tfrc.json`
+
+```json
+{
+    "credentials": {
+        "app.terraform.io": {
+            "token": "your tf cloud token"
+        }
+    }
+}
+```
