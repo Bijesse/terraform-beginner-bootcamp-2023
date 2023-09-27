@@ -54,3 +54,27 @@ If you lose your tfstate file, you tear down cloud infra manually and then check
 
 ## Fix manual configuration
 if a bucket is deleted manually via clickops, we can run tf plan again to put our infra back into the expected state
+
+## Fix using tf refresh
+
+`tf apply -refresh-only --auto-approve`
+
+## Tf modules
+
+### tf module structure
+place modules in a `modules` dir
+
+### Passing input vars
+the source (below) needs to be declared in a variables.tf file
+
+### module sources
+[module sources](https://developer.hashicorp.com/terraform/language/modules/sources)
+
+Using the source, we can import the module localy or from github
+```tf
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+  user_uuid = var.user_uuid
+  bucket_name = var.bucket_name
+}
+```
