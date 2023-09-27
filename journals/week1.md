@@ -41,3 +41,16 @@ Environment variables
 3. Any *.auto.tfvars or *.auto.tfvars.json files, processed in lexical order of their filenames
 4. Any -var and -var-file options on the command line, in the order they are provided
 5. Variable defaults
+
+## Configuration drift
+
+### TF import
+If you lose your tfstate file, you tear down cloud infra manually and then check tf providers documentation to see who supports import
+
+[Terraform import](https://developer.hashicorp.com/terraform/language/import)
+[S3 bucket import](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket)
+
+`tf import aws_s3_bucket.example`
+
+## Fix manual configuration
+if a bucket is deleted manually via clickops, we can run tf plan again to put our infra back into the expected state
