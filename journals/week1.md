@@ -78,3 +78,42 @@ module "terrahouse_aws" {
   bucket_name = var.bucket_name
 }
 ```
+
+## Working with files in tf
+
+### fileexists
+tf function that check if the file exists
+
+ex:
+```bash
+variable "index_html_filepath" {
+  type = string
+  description = "The file path to the index.html file."
+  validation {
+    condition = fileexists(var.index_html_filepath)
+    error_message = "The index.html file must be a valid file path."
+  }
+}
+```
+
+### Path var
+In tf there is a path var that allows us to reference local paths:
+  - path.module - get path for current module
+  - path.root
+[Special path var](https://developer.hashicorp.com/terraform/language/expressions/references)
+
+ex path var
+```bash
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object
+resource "aws_s3_object" "index_html" {
+  bucket = aws_s3_bucket.website_bucket.bucket
+  key    = "index.html"
+  source = "${path.root}/public/index_html"
+
+  etag = "${path.root}/public/index_html"
+}
+```
+
+[etagmd5](https://developer.hashicorp.com/terraform/language/functions/filemd5)
+Creates a change in the tfstate file based on a content change... Otherwise tf plan only check for infra changes
+
