@@ -187,3 +187,9 @@ resource "aws_instance" "web" {
   }
 }
 ```
+
+## For Each
+[for each](https://developer.hashicorp.com/terraform/language/expressions/for)
+Allows us to itterate over complex data types. useful for reducing tf code when creating multiple cloud resources
+`[for s in var.list : upper(s)]`
+
