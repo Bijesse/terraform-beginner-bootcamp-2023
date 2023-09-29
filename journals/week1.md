@@ -138,3 +138,10 @@ https://developer.hashicorp.com/terraform/language/functions/jsonencode
 > jsonencode({"hello"="world"})
 {"hello":"world"}
 ```
+
+### Changing lifecycle resources
+[meta args lifecycle](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle)
+
+### tf data
+[tf_data](https://developer.hashicorp.com/terraform/language/resources/terraform-data)
+data values and input cars that don't get affected by tf plan because they use `replace_triggered_by`

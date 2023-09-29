@@ -37,3 +37,12 @@ variable "error_html_filepath" {
     error_message = "The error.html file must be a valid file path."
   }
 }
+
+variable "content_version" {
+  type = number
+  description = "The version of the content."
+  validation {
+    condition = var.content_version >= 1
+    error_message = "The content version must be a positive integer starting at 1."
+  }
+}
