@@ -145,3 +145,45 @@ https://developer.hashicorp.com/terraform/language/functions/jsonencode
 ### tf data
 [tf_data](https://developer.hashicorp.com/terraform/language/resources/terraform-data)
 data values and input cars that don't get affected by tf plan because they use `replace_triggered_by`
+
+## Provisioners
+Provisioners allow to execute commands on compute instances ... ex: AWS cli command.. Hasicrop doesn't like them, they prefer we use ansible
+[provisioners as a last resort](https://developer.hashicorp.com/terraform/language/resources/provisioners/syntax)
+
+### local-exec
+executes command on machine running the tf commands (plan & apply)
+
+```bash
+resource "aws_instance" "web" {
+  # ...
+
+  provisioner "local-exec" {
+    command = "echo The server's IP address is ${self.private_ip}"
+  }
+}
+```
+
+### remote-exec
+executes command on machine on machine you target. usually need to ssh into it
+
+```bash
+resource "aws_instance" "web" {
+  # ...
+
+  # Establishes connection to be used by all
+  # generic remote provisioners (i.e. file/remote-exec)
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = var.root_password
+    host     = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "puppet apply",
+      "consul join ${aws_instance.web.private_ip}",
+    ]
+  }
+}
+```
