@@ -117,3 +117,24 @@ resource "aws_s3_object" "index_html" {
 [etagmd5](https://developer.hashicorp.com/terraform/language/functions/filemd5)
 Creates a change in the tfstate file based on a content change... Otherwise tf plan only check for infra changes
 
+## Terraform data sources
+[Data sources](https://developer.hashicorp.com/terraform/language/data-sources)
+
+### TF locals
+Allows us to source data from cloud resources. refernce without importing 
+https://developer.hashicorp.com/terraform/language/values/locals
+
+```bash
+locals {
+    s3_origin_id = "MyS3Origin"
+}
+``` 
+
+### JSONencode
+jsonencode encodes a given value to a string using JSON syntax... we used it to create the json policy in the hcl
+https://developer.hashicorp.com/terraform/language/functions/jsonencode
+
+```bash
+> jsonencode({"hello"="world"})
+{"hello":"world"}
+```
