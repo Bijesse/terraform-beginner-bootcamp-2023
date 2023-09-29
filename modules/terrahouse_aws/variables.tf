@@ -48,6 +48,6 @@ variable "content_version" {
 }
 
 variable "assets_path" {
-  description = "PAth to assets folder"
+  description = "Path to assets folder"
   type = string
 }
