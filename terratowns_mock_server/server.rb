@@ -3,15 +3,30 @@ require 'json'
 require 'pry'
 require 'active_model'
 
+# emulate having a state or database for this dev server by setting a global var. Goodd for dev, never use global var in prod though
 $home = {}
 
+# a Ruby class that includes validations from ActiveRecord
+# represents our Home as a ruby object
 class Home
+# ActiveModel is a part of ruby on rails. It provides validation
   include ActiveModel::Validations
+
+  # create virtual attributes to store things on this object
   attr_accessor :town, :name, :description, :domain_name, :content_version
 
-  validates :town, presence: true
+  validates :town, presence: true, inclusion: { in: [
+    'cooker-cove',
+    'melomaniac-mansion',
+    'video-vally',
+    'the-nomad-pad',
+    'gamers-grotto'
+  ]}
+  # visible to all users
   validates :name, presence: true
+  # visible to all users
   validates :description, presence: true
+  # visible to cloudfront only
   validates :domain_name, 
     format: { with: /\.cloudfront\.net\z/, message: "domain must be from .cloudfront.net" }
     # uniqueness: true, 
@@ -19,6 +34,7 @@ class Home
   validates :content_version, numericality: { only_integer: true }
 end
 
+# extending a class from sinatra base to use in the project
 class TerraTownsMockServer < Sinatra::Base
 
   def error code, message
@@ -39,6 +55,7 @@ class TerraTownsMockServer < Sinatra::Base
     end
   end
 
+    # return a hardocded access token
   def x_access_code
     '9b49b3fb-b8e9-483c-b703-97ba88eef8e0'
   end
@@ -48,20 +65,26 @@ class TerraTownsMockServer < Sinatra::Base
   end
 
   def find_user_by_bearer_token
+      # https://swagger.io/docs/specification/authentication/bearer-authentication/
     auth_header = request.env["HTTP_AUTHORIZATION"]
+      # check if AUTHORIZATION  header exists
     if auth_header.nil? || !auth_header.start_with?("Bearer ")
       error 401, "a1000 Failed to authenicate, bearer token invalid and/or teacherseat_user_uuid invalid"
     end
 
+      # does the token match the one in our database? if not, throw error
+      # code = access_code = token
     code = auth_header.split("Bearer ")[1]
     if code != x_access_code
       error 401, "a1001 Failed to authenicate, bearer token invalid and/or teacherseat_user_uuid invalid"
     end
 
+      # was there a user_uuid in the body payload (json)
     if params['user_uuid'].nil?
       error 401, "a1002 Failed to authenicate, bearer token invalid and/or teacherseat_user_uuid invalid"
     end
 
+      #user_uuid and code should match
     unless code == x_access_code && params['user_uuid'] == x_user_uuid
       error 401, "a1003 Failed to authenicate, bearer token invalid and/or teacherseat_user_uuid invalid"
     end
@@ -71,27 +94,30 @@ class TerraTownsMockServer < Sinatra::Base
   post '/api/u/:user_uuid/homes' do
     ensure_correct_headings
     find_user_by_bearer_token
+    # puts print to the terminal in ruby. similar to console.log
     puts "# create - POST /api/homes"
 
+    # begin/rescue is similar to try/catch
     begin
       payload = JSON.parse(request.body.read)
     rescue JSON::ParserError
       halt 422, "Malformed JSON"
     end
 
-    # Validate payload data
+    # Validate payload data to vars
     name = payload["name"]
     description = payload["description"]
     domain_name = payload["domain_name"]
     content_version = payload["content_version"]
     town = payload["town"]
-
+# Parse JSON payload from the request body 
     puts "name #{name}"
     puts "description #{description}"
     puts "domain_name #{domain_name}"
     puts "content_version #{content_version}"
     puts "town #{town}"
 
+    # create new Home model and set attributes
     home = Home.new
     home.town = town
     home.name = name
@@ -139,13 +165,13 @@ class TerraTownsMockServer < Sinatra::Base
     find_user_by_bearer_token
     puts "# update - PUT /api/homes/:uuid"
     begin
-      # Parse JSON payload from the request body
+      # Parse JSON payload from the request body 
       payload = JSON.parse(request.body.read)
     rescue JSON::ParserError
       halt 422, "Malformed JSON"
     end
 
-    # Validate payload data
+    # Validate payload data to vars
     name = payload["name"]
     description = payload["description"]
     domain_name = payload["domain_name"]
@@ -155,6 +181,7 @@ class TerraTownsMockServer < Sinatra::Base
       error 404, "failed to find home with provided uuid and bearer token"
     end
 
+    # create new Home model and set attributes
     home = Home.new
     home.town = $home[:town]
     home.name = name
@@ -162,10 +189,12 @@ class TerraTownsMockServer < Sinatra::Base
     home.domain_name = domain_name
     home.content_version = content_version
 
+    # validate that check have passed. else return error messages back as json
     unless home.valid?
       error 422, home.errors.messages.to_json
     end
 
+    #create uuid at random
     return { uuid: params[:uuid] }.to_json
   end
 
@@ -185,4 +214,6 @@ class TerraTownsMockServer < Sinatra::Base
   end
 end
 
+
+# This line of code runs the server 
 TerraTownsMockServer.run!
