@@ -37,3 +37,5 @@ terraform.rc
 *.env.example 
 
 credentials.tfrc.json 
+
+terraform-provider-terratowns/terraform-provider-terratowns_v*
