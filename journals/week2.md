@@ -47,3 +47,8 @@ web server runs on the following code form the `server.rb` file
       bundle install
       bundle exec ruby server.rb 
 ```
+
+## CRUD
+
+create read update delete... tf resources use it
+https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
