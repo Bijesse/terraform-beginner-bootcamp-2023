@@ -21,7 +21,7 @@ func main() {
 	plugin.Serve(&plugin.ServeOpts{
 		ProviderFunc: Provider,
 	})
-	// format.printline
+	// Format.printline
 	fmt.Println("Hello, World!")
 }
 
@@ -62,7 +62,7 @@ func Provider() *schema.Provider {
 
 		},
 	}
-	//p.ConfigureContextFunc = providerConfigure(p)
+	p.ConfigureContextFunc = providerConfigure(p)
 	return p
 } 
 
@@ -89,7 +89,7 @@ func providerConfigure(p *schema.Provider) schema.ConfigureContextFunc {
 	}
 }
 
-func Resource() *schema.Resource{
+func Resource() *schema.Resource {
 	log.Print("Resource:start")
 	resource := &schema.Resource{
 		CreateContext: resourceHouseCreate,
