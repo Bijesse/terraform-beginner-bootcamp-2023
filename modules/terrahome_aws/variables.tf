@@ -20,23 +20,10 @@ variable "user_uuid" {
 #   }
 # }
 
-variable "index_html_filepath" {
+variable "public_path" {
   type = string
-  description = "The file path to the index.html file."
-  validation {
-    condition = fileexists(var.index_html_filepath)
-    error_message = "The index.html file must be a valid file path."
-  }
 }
 
-variable "error_html_filepath" {
-  type = string
-  description = "The file path to the error.html file."
-  validation {
-    condition = fileexists(var.error_html_filepath)
-    error_message = "The error.html file must be a valid file path."
-  }
-}
 
 variable "content_version" {
   type = number
@@ -47,7 +34,3 @@ variable "content_version" {
   }
 }
 
-variable "assets_path" {
-  description = "Path to assets folder"
-  type = string
-}

@@ -52,3 +52,20 @@ web server runs on the following code form the `server.rb` file
 
 create read update delete... tf resources use it
 https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
+
+## Terrahome AWS
+The following dir expects the following:
+- index.html
+- error.html
+- assets
+All top level files in assets will be copied
+
+``` bash
+module "home_contra" {
+  source = "./modules/terrahome_aws"
+  user_uuid = var.teacherseat_user_uuid
+  public_path = var.contra_public
+  content_version = var.content_version
+}
+```
+
