@@ -1,5 +1,11 @@
 terratowns_endpoint="https://terratowns.cloud/api"
-index_html_filepath="/workspace/terraform-beginner-bootcamp-2023/public/index.html"
-error_html_filepath="/workspace/terraform-beginner-bootcamp-2023/public/index.html"
-assets_path="/workspace/terraform-beginner-bootcamp-2023/public/assets"
-content_version=1
+contra = {
+    public_path="/workspace/terraform-beginner-bootcamp-2023/public/contra"
+    content_version=1
+}
+zelda = {
+    public_path="/workspace/terraform-beginner-bootcamp-2023/public/zelda"
+    content_version=1
+}
+
+

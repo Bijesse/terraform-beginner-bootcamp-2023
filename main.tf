@@ -6,7 +6,7 @@ terraform {
       }
     }
 
- /*
+
   cloud {
     organization = "toms-org"
 
@@ -14,7 +14,7 @@ terraform {
       name = "terra-house-tom"
     }
   }
-*/
+
 
 }
 
@@ -24,22 +24,38 @@ provider "terratowns" {
   token= var.terratowns_access_token
 }
 
-module "terrahouse_aws" {
-  source = "./modules/terrahouse_aws"
+module "home_contra_hosting" {
+  source = "./modules/terrahome_aws"
   user_uuid = var.teacherseat_user_uuid
-  index_html_filepath = var.index_html_filepath
-  error_html_filepath = var.error_html_filepath
-  assets_path = var.assets_path
-  content_version = var.content_version
+  public_path = var.contra.public_path
+  content_version = var.contra.content_version
 }
 
-resource "terratowns_home" "home" {
+resource "terratowns_home" "home_contra" {
   name = "Contra home"
   description = <<DESCRIPTION
 A home dedicated to Contra
 DESCRIPTION
-  domain_name = module.terrahouse_aws.cloudfront_url
+  domain_name = module.home_contra_hosting.domain_name
   #domain_name = "1fdq3gx.cloudfront.net"
   town = "missingo"
-  content_version = 1
+  content_version = var.contra.content_version
+}
+
+module "home_zelda_hosting" {
+  source = "./modules/terrahome_aws"
+  user_uuid = var.teacherseat_user_uuid
+  public_path = var.zelda.public_path
+  content_version = var.zelda.content_version
+}
+
+resource "terratowns_home" "home_zelda" {
+  name = "ocarina of time"
+  description = <<DESCRIPTION
+Quite possibly the best game ever made
+DESCRIPTION
+  domain_name = module.home_zelda_hosting.domain_name
+  #domain_name = "1fdq3gx.cloudfront.net"
+  town = "gamers-grotto"
+  content_version = var.zelda.content_version
 }
